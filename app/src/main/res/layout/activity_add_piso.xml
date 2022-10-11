@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp"
+    tools:context=".AddPisoActivity">
+
+    <EditText
+        android:id="@+id/txtDireccionAddPiso"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:ems="10"
+        android:hint="@string/direccion_piso"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/txtNumeroAddPiso"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:ems="10"
+        android:hint="@string/numero_piso"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/txtCiudadAddPiso"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:ems="10"
+        android:hint="@string/ciudad_piso"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/txtProvinciaAddPiso"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:ems="10"
+        android:hint="@string/provincia_piso"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/txtCpAddPiso"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:ems="10"
+        android:hint="@string/cp_piso"
+        android:inputType="textPersonName" />
+
+    <RatingBar
+        android:id="@+id/ratingBarAddPiso"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="false"
+        android:numStars="5"
+        android:progressTint="#2196F3"
+        android:layout_margin="5dp" />
+
+    <Button
+        android:id="@+id/btnAnyadirAddPiso"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/add_piso" />
+</LinearLayout>
