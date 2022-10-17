@@ -1,9 +1,10 @@
 <resources>
     <string name="app_name">01EjercicioInmobilaria</string>
-    <string name = "direccion_piso">Dirección</string>
-    <string name = "numero_piso">Número</string>
-    <string name= "ciudad_piso">Ciudad</string>
+    <string name="direccion_piso">Dirección</string>
+    <string name="numero_piso">Número</string>
+    <string name="ciudad_piso">Ciudad</string>
     <string name="provincia_piso">Provincia</string>
     <string name="cp_piso">Cp</string>
-    <string name = "add_piso">AÑADIR PISO</string>
+    <string name="add_piso">AÑADIR PISO</string>
+    <string name="cancelar_piso">CANCELAR PISO</string>
 </resources>

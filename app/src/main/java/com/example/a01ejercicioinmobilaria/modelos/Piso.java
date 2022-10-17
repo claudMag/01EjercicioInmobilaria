@@ -69,4 +69,16 @@ public class Piso implements Serializable {
     public void setValoracion(float valoracion) {
         this.valoracion = valoracion;
     }
+
+    @Override
+    public String toString() {
+        return "Piso{" +
+                "direccion='" + direccion + '\'' +
+                ", numero=" + numero +
+                ", ciudad='" + ciudad + '\'' +
+                ", provincia='" + provincia + '\'' +
+                ", cp='" + cp + '\'' +
+                ", valoracion=" + valoracion +
+                '}';
+    }
 }

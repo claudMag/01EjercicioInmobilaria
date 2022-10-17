@@ -3,6 +3,7 @@ package com.example.a01ejercicioinmobilaria;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.a01ejercicioinmobilaria.configuraciones.Constantes;
 import com.example.a01ejercicioinmobilaria.modelos.Piso;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -21,6 +22,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -44,39 +46,40 @@ public class MainActivity extends AppCompatActivity {
         inicializaLaunchers();
         mostrarPisos();
 
-
         setSupportActionBar(binding.toolbar);
 
         binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //lanzar la creación de un nuevo objeto
                 launcherAddPiso.launch(new Intent(MainActivity.this, AddPisoActivity.class));
             }
         });
+
     }
 
     private void mostrarPisos() {
-        binding.content.contenedorMain.removeAllViews();
+        binding.contentMain.contenedorMain.removeAllViews();
 
-        for (Piso p : listaPisos) {
+        for (int i = 0; i < listaPisos.size(); i++) {
+            Piso p = listaPisos.get(i);
             //construyo un layout para cada fila de piso
             View pisoView = LayoutInflater.from(MainActivity.this).inflate(R.layout.piso_model_view, null);
             //ahora los elementos de piso que quiero mostrar.
             //SOLO TIENE QUE APARECER en la fila; direccion, num,ciudad, rating
             TextView lblDireccion = pisoView.findViewById(R.id.lblDireccionPisoModelView);
-            TextView lblNumero = findViewById(R.id.lblNumeroPisoModelView);
-            TextView lblCiudad = findViewById(R.id.lblCiudadPisoModelView);
-            RatingBar ratingBar = findViewById(R.id.ratingBarPisoModelView);
+            TextView lblNumero = pisoView.findViewById(R.id.lblNumeroPisoModelView);
+            TextView lblCiudad = pisoView.findViewById(R.id.lblCiudadPisoModelView);
+            RatingBar ratingBar = pisoView.findViewById(R.id.ratingBarPisoModelView);
 
             lblDireccion.setText(p.getDireccion());
             lblNumero.setText(String.valueOf(p.getNumero()));
             lblCiudad.setText(p.getCiudad());
             ratingBar.setRating(p.getValoracion());
 
-            binding.content.contenedorMain.addView(pisoView);
-
-
+            binding.contentMain.contenedorMain.addView(pisoView);
         }
+
     }
 
     private void inicializaLaunchers() {
@@ -88,10 +91,18 @@ public class MainActivity extends AppCompatActivity {
                     public void onActivityResult(ActivityResult result) {
                         if (result.getResultCode() == RESULT_OK) {
                             if (result.getData() != null && result.getData().getExtras() != null) {
-                                Piso alumno = (Piso) result.getData().getExtras().getSerializable("PISO");
-                                listaPisos.add(alumno);
-                                mostrarPisos();
+                                if (result.getData().getExtras().getSerializable(Constantes.PISO) != null) {
+                                    Piso alumno = (Piso) result.getData().getExtras().getSerializable(Constantes.PISO);
+                                    listaPisos.add(alumno);
+                                    mostrarPisos();
+                                } else {
+                                    Toast.makeText(MainActivity.this, "No hay datos", Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                Toast.makeText(MainActivity.this, "NO HAY INTENT O BUNDLE", Toast.LENGTH_SHORT).show();
                             }
+                        } else {
+                            Toast.makeText(MainActivity.this, "Ventana cancelalda", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
