@@ -7,4 +7,11 @@
     <string name="cp_piso">Cp</string>
     <string name="add_piso">AÑADIR PISO</string>
     <string name="cancelar_piso">CANCELAR PISO</string>
+    <string name="direccion">Direccion</string>
+    <string name="numero">Número</string>
+    <string name="ciudad">Ciudad</string>
+    <string name="provincia">Provincia</string>
+    <string name="cp">Cp</string>
+    <string name="delete">DELETE</string>
+    <string name="update">UPDATE</string>
 </resources>

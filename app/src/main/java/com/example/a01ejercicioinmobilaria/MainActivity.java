@@ -32,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityResultLauncher<Intent> launcherAddPiso;
 
+    private ActivityResultLauncher<Intent> launcherEditPiso;
+
     private ArrayList<Piso> listaPisos;
 
     @Override
@@ -44,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
         listaPisos = new ArrayList<>();
 
         inicializaLaunchers();
-        mostrarPisos();
 
         setSupportActionBar(binding.toolbar);
 
@@ -72,6 +73,19 @@ public class MainActivity extends AppCompatActivity {
             TextView lblCiudad = pisoView.findViewById(R.id.lblCiudadPisoModelView);
             RatingBar ratingBar = pisoView.findViewById(R.id.ratingBarPisoModelView);
 
+            int finalI = i;
+            pisoView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(MainActivity.this, EditPisoActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(Constantes.PISO, p);
+                    bundle.putInt(Constantes.POSICION, finalI);
+                    intent.putExtras(bundle);
+                    launcherEditPiso.launch(intent);
+                }
+            });
+
             lblDireccion.setText(p.getDireccion());
             lblNumero.setText(String.valueOf(p.getNumero()));
             lblCiudad.setText(p.getCiudad());
@@ -92,8 +106,8 @@ public class MainActivity extends AppCompatActivity {
                         if (result.getResultCode() == RESULT_OK) {
                             if (result.getData() != null && result.getData().getExtras() != null) {
                                 if (result.getData().getExtras().getSerializable(Constantes.PISO) != null) {
-                                    Piso alumno = (Piso) result.getData().getExtras().getSerializable(Constantes.PISO);
-                                    listaPisos.add(alumno);
+                                    Piso piso = (Piso) result.getData().getExtras().getSerializable(Constantes.PISO);
+                                    listaPisos.add(piso);
                                     mostrarPisos();
                                 } else {
                                     Toast.makeText(MainActivity.this, "No hay datos", Toast.LENGTH_SHORT).show();
@@ -102,7 +116,40 @@ public class MainActivity extends AppCompatActivity {
                                 Toast.makeText(MainActivity.this, "NO HAY INTENT O BUNDLE", Toast.LENGTH_SHORT).show();
                             }
                         } else {
-                            Toast.makeText(MainActivity.this, "Ventana cancelalda", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, "Ventana cancelada", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+        //en el launcher edit para saber si es un delete o un update habria podido tambien:
+        //un bundle con un tag, el numero id del boton al que le han hecho click
+        //pero como con el delete no hemos creado ningun objeto, solo recogido la accion, lo resuelvo asi:
+
+        launcherEditPiso = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if (result.getResultCode() == RESULT_OK) {
+                            if (result.getData() != null && result.getData().getExtras() != null) {
+                                if (result.getData().getExtras().getSerializable(Constantes.PISO) != null) { //en este caso es un UPDATE!
+                                    Piso piso = (Piso) result.getData().getExtras().getSerializable(Constantes.PISO);
+                                    int posicion = result.getData().getExtras().getInt(Constantes.POSICION);
+                                    listaPisos.set(posicion, piso);
+                                    mostrarPisos();
+                                } else {
+                                    //si no existe el piso, delete.
+                                    if (result.getData().getExtras() != null){
+                                        int posicion = result.getData().getExtras().getInt(Constantes.POSICION);
+                                        listaPisos.remove(posicion);
+                                        mostrarPisos();
+                                    }
+                                }
+                            } else {
+                                Toast.makeText(MainActivity.this, "NO HAY INTENT O BUNDLE", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Toast.makeText(MainActivity.this, "Ventana cancelada", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
